@@ -1,0 +1,125 @@
+
+1.Print the names of the employees who have highest no of leaves.
+
+ANS:
+select concat_ws(' ',first_name,Last_name)as Employee ,x as "Total leaves"  from Employees_name join leaves on Employees_name.id=leaves.emps_id order by x desc limit 1
+
+
+2. Print the names of the employees that took the second highest leaves
+get the 2nd highest no of leaves.
+
+select concat_ws(' ',first_name,Last_name) as Employee_name from Employees_name where id=(select emps_id from leaves l1 where 2-1=(select count(x) from leaves l2 where l2.x>l1.x))
+Alternative way
+select concat_ws(' ',first_name,Last_name) as Employee_name,x from 
+       Employees_name join leaves on Employees_name.id=leaves.emps_id
+       
+       where Employees_name.id=(select emps_id from leaves l1 where 2-1=(select count(x) from leaves l2 where l2.x>l1.x))
+
+
+3.Print n th highest salary
+
+select concat_ws(' ',first_name,Last_name)as Employee ,sal as "Total leaves"  from Employees_name join salary on Employees_name.id=salary.empsal_id order by sal desc limit 1
+
+
+*************************************************************************************************************************************************************************************************************************
+1.Print Name of the employee, Department name, StartDate, EndDate - Ordered by Employee, StartDate
+ascending
+
+ANS: select concat_ws(' ', first_name,last_name),department,start_date,end_date from employees_name 
+						
+						join department  on employees_name.id=department.empd_id
+                        join joining  on employees_name.id=joining.empj_id
+                        
+                        order by first_name,start_date
+
+
+
+2. Print the Employees that are assigned to more than one department
+
+ANS: select * from employees_name 
+	
+	 inner join department  on employees_name.id=department.empd_id where empd_id=employees_name.id group by empd_id
+     having count(*)>1
+
+3.Print the number of employees that are not assigned to any deparment.
+
+  select * from employees_name 
+						
+						left join department  on employees_name.id=department.empd_id where empd_id is null
+
+
+4.Print the number of employees by their shift [ Number of employees working day, evening, and night 
+
+select shift,count(*) from employees_name join shifts on employees_name.id=shifts.empsh_id group by shift
+
+5.Print Number of Emplyoees by CountryRegionName
+
+ select country_region,count(*) from employees_name 
+	
+	 left join address on employees_name.id=address.empa_id  group by country_region
+
+
+6.Print the name of the CoutryRegion with the highest number of employees
+
+ANS: select country_region,count(*) from employees_name 
+	
+	 left join address on employees_name.id=address.empa_id  group by country_region order by (count(*)) desc limit 1
+
+***************************************************************************************************************************************************************
+
+
+1. Print the employee with their Home address detail
+First Name, Last name, AddressType = Home, Line1, Line2, City, State ( I want the name of the
+state here ), Postal Code and Country
+
+
+select employees_name.id,first_name,last_name,home_address,state,country_region from employees_name 
+	
+	 join address on employees_name.id=address.empa_id  
+
+
+2. Print the number of employees that don't have shipping address
+
+   select count(*) from employees_name 
+	
+	left join address on employees_name.id=address.empa_id  where shipping_address is null
+     
+
+
+
+
+
+4. Print the count of employees that are living in Texas state.
+  
+  select * from employees_name 
+	
+	left join address on employees_name.id=address.empa_id   where state="taxes"
+
+****************************************************************************************************************************************************
+1. Get the customers and their Sale value ( total due )
+
+select name, sum(amount) as "sale value" from salesperson join salesbySalesperson on salesperson.id=salesbySalesperson.sales_id group by name
+
+
+2. Get the names of the salespersons that did the highest sale
+
+select name, sum(amount) as "sale value" from salesperson join salesbySalesperson on salesperson.id=salesbySalesperson.sales_id group by name order by sum(amount) desc limit 1;
+
+
+3. Number of sales by Online vs non-online
+
+select count(*)as "total no. of offline bought product" from products where type="of" 
+select count(*)as "total no. of online bought product" from products where type="o" 
+
+     
+   
+
+
+
+     
+     
+
+
+
+
+
